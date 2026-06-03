@@ -96,27 +96,6 @@ Implemented:
 
 ---
 
-## Roadmap
-
-### v1.2
-- Input validation
-- Exception handling
-- IP address validation
-
-### v1.3
-- Save scan results to file
-
-### v2.0
-- Multi-threaded scanning
-
-### v2.1
-- Banner grabbing
-
-### v3.0
-- Advanced port scanning features
-
----
-
 ## Disclaimer
 
 This project was created for educational purposes and should only be used on systems and networks you are authorized to test.
