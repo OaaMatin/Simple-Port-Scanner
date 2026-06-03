@@ -14,6 +14,10 @@ This project allows users to scan a target host within a specified port range an
 - Count the number of open ports
 - Automatically handle reversed port ranges
 - Simple and beginner-friendly implementation
+- Hostname and IP support
+- Input validation
+- Port range validation
+- Error handling
 
 ---
 
@@ -84,7 +88,7 @@ Simple-Port-Scanner/
 
 ## Current Version
 
-### v1.1
+### v1.2
 
 Implemented:
 
@@ -93,6 +97,10 @@ Implemented:
 - Open port counter
 - Scan duration measurement
 - Port range correction
+- Hostname resolution
+- Host/IP validation
+- Port range validation
+- Exception handling
 
 ---
 
