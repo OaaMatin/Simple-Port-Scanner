@@ -99,9 +99,3 @@ Implemented:
 ## Disclaimer
 
 This project was created for educational purposes and should only be used on systems and networks you are authorized to test.
-
----
-
-## Author
-
-Matin
