@@ -2,6 +2,20 @@ import socket
 import time
 import sys
 from concurrent.futures import ThreadPoolExecutor
+import argparse
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        description="Simple Multi-threaded TCP Port Scanner"
+    )
+
+    parser.add_argument("host", help="Target host or IP address")
+
+    parser.add_argument("start", type=int, help="Start port number")
+
+    parser.add_argument("end", type=int, help="End port number")
+
+    return parser.parse_args()
 
 def scan_port(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as scanner:
@@ -10,8 +24,10 @@ def scan_port(port):
 
 print('\n"Simple-Port-Scanner"\n')
 
+args = get_args()
+
 try:
-    host_ip = input("Enter host or IP: ")
+    host_ip = args.host
     resolved_ip = socket.gethostbyname(host_ip)
     print(f"\nResolved IP: {resolved_ip}\n")
 except socket.gaierror:
@@ -19,7 +35,7 @@ except socket.gaierror:
     sys.exit(1)
 
 try:
-    start_port = int(input("Enter Start Port: "))
+    start_port = args.start
 except ValueError:
     print("\nInvalid input!\n")
     sys.exit(1)
@@ -28,7 +44,7 @@ if start_port < 0 or start_port > 65535:
     sys.exit(1)
 
 try:
-    end_port = int(input("Enter End Port: "))
+    end_port = args.end
 except ValueError:
     print("\nInvalid input!\n")
     sys.exit(1)

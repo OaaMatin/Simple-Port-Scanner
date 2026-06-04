@@ -46,25 +46,23 @@ cd Simple-Port-Scanner
 
 ---
 
-## Usage
+## CLI Usage
 
-Run the scanner:
+Run the scanner using command-line arguments:
 
 ```bash
-python3 scanner.py
+python3 scanner.py <host> <start_port> <end_port>
 ```
 
 Example:
+```bash
+python3 scanner.py scanme.nmap.org 20 100
+```
 
 ```text
 "Simple-Port-Scanner"
 
-Enter host or IP: scanme.nmap.org
-
 Resolved IP: 45.33.32.156
-
-Enter Start Port: 20
-Enter End Port: 100
 
 Start scanning...
 
