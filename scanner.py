@@ -2,7 +2,14 @@ import socket
 import time
 import sys
 
-print("\n\"Simple-Port-Scanner\"\n")
+
+def scan_port(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as scanner:
+        scanner.settimeout(1)
+        res = scanner.connect_ex((resolved_ip, port))
+    return res == 0
+
+print('\n"Simple-Port-Scanner"\n')
 
 try:
     host_ip = input("Enter host or IP: ")
@@ -33,20 +40,17 @@ if end_port < 0 or end_port > 65535:
 if end_port < start_port:
     end_port, start_port = start_port, end_port
 
-open_ports = 0
-
 print("\nStart scanning...\n")
 
 start_time = time.perf_counter()
 
+open_ports = 0 
+
 for port in range(start_port, end_port + 1):
-    scanner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    scanner.settimeout(1)
-    res = scanner.connect_ex((resolved_ip, port))
-    if res == 0:
+    if scan_port(port):
         print(f"Port {port} is OPEN")
         open_ports += 1
-    scanner.close()
+
 end_time = time.perf_counter()
 
 if open_ports == 0:
