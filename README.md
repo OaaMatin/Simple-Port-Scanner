@@ -90,6 +90,16 @@ Simple-Port-Scanner/
 
 ## Version History
 
+### v2.1
+
+Implemented:
+
+- Command-line interface (CLI) using argparse
+- Removed interactive input prompts
+- Support for positional arguments (host, start port, end port)
+- Improved usability for automation and scripting
+- Foundation for advanced CLI features in future versions
+
 ### v2.0
 
 Implemented:
