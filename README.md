@@ -8,6 +8,9 @@ This project allows users to scan a target host within a specified port range an
 
 ## Features
 
+* Multi-threaded scanning
+* Custom thread count configuration
+* CLI-based interface
 * Scan custom TCP port ranges
 * Detect open TCP ports
 * Multi-threaded scanning using ThreadPoolExecutor
@@ -51,12 +54,12 @@ cd Simple-Port-Scanner
 Run the scanner using command-line arguments:
 
 ```bash
-python3 scanner.py <host> <start_port> <end_port>
+python3 scanner.py <host> <start_port> <end_port> --threads <thread_count>
 ```
 
 Example:
 ```bash
-python3 scanner.py scanme.nmap.org 20 100
+python3 scanner.py scanme.nmap.org 1 1000 --threads 200
 ```
 
 ```text
@@ -89,6 +92,15 @@ Simple-Port-Scanner/
 ---
 
 ## Version History
+
+### v2.2
+
+Implemented:
+
+- Custom thread count configuration
+- Added --threads command-line argument
+- Thread count validation
+- Improved performance tuning flexibility
 
 ### v2.1
 
