@@ -2,6 +2,7 @@ import argparse
 import socket
 import sys
 import time
+import json
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -19,6 +20,7 @@ def get_args():
         default=100,
         help="Number of worker threads (default: 100)",
     )
+    parser.add_argument("--output", help="Save scan results to a JSON file")
 
     return parser.parse_args()
 
@@ -35,6 +37,7 @@ thread_count = args.threads
 if thread_count < 1 or thread_count > 1000:
     print("\nThread count must be between 1 and 1000.\n")
     sys.exit(1)
+output_file = args.output
 
 try:
     host_ip = args.host
@@ -61,6 +64,7 @@ if end_port < start_port:
 print("\nStarting scan...\n")
 
 open_ports = 0
+open_ports_list = []
 
 start_time = time.perf_counter()
 
@@ -76,6 +80,7 @@ with ThreadPoolExecutor(max_workers=thread_count) as executor:
         if future.result():
             print(f"    Port {port} is open.")
             open_ports += 1
+            open_ports_list.append(port)
 
 end_time = time.perf_counter()
 
@@ -87,3 +92,18 @@ else:
 
 latency = end_time - start_time
 print(f"\nScan completed in {latency:.3f} seconds.\n")
+
+results = {
+    "host": host_ip,
+    "resolved_ip": resolved_ip,
+    "open_ports": open_ports_list,
+    "total_open_ports": open_ports,
+    "scan_duration": round(latency, 3),
+    "thread_count": thread_count,
+}
+
+if output_file:
+    with open(output_file, "w") as file:
+        json.dump(results, file, indent=4)
+
+    print(f"Results saved to {output_file}\n")

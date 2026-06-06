@@ -8,20 +8,20 @@ This project allows users to scan a target host within a specified port range an
 
 ## Features
 
-* Multi-threaded scanning
-* Custom thread count configuration
-* CLI-based interface
-* Scan custom TCP port ranges
-* Detect open TCP ports
-* Multi-threaded scanning using ThreadPoolExecutor
-* Hostname and IP address support
-* Automatic hostname resolution
-* Input validation and error handling
-* Port range validation
-* Automatic correction of reversed port ranges
-* Open port counting
-* Scan duration measurement
-* Simple and beginner-friendly implementation
+- Multi-threaded TCP port scanning
+- Scan custom TCP port ranges
+- Hostname and IP support
+- Open port detection
+- Open port counting
+- Custom thread count configuration
+- Export scan results to JSON
+- Display scan duration
+- Automatic port range correction
+- Input validation
+- Port range validation
+- Thread count validation
+- Error handling
+- Lightweight and dependency-free
 
 ---
 
@@ -49,32 +49,49 @@ cd Simple-Port-Scanner
 
 ---
 
-## CLI Usage
+## Usage
 
-Run the scanner using command-line arguments:
+Basic scan:
 
 ```bash
-python3 scanner.py <host> <start_port> <end_port> --threads <thread_count>
+python3 scanner.py scanme.nmap.org 20 100
 ```
 
-Example:
+Custom thread count:
+
 ```bash
-python3 scanner.py scanme.nmap.org 1 1000 --threads 200
+python3 scanner.py scanme.nmap.org 20 100 --threads 200
 ```
+
+Save results to a JSON file:
+
+```bash
+python3 scanner.py scanme.nmap.org 20 100 --output results.json
+```
+
+Combine both options:
+
+```bash
+python3 scanner.py scanme.nmap.org 20 100 --threads 200 --output results.json
+```
+
+Example output:
 
 ```text
 "Simple-Port-Scanner"
 
 Resolved IP: 45.33.32.156
 
-Start scanning...
+Starting scan...
 
-    Port 22 is open.
-    Port 80 is open.
+    Port 22 is OPEN
+    Port 80 is OPEN
 
 Found 2 open ports.
 
-Scan completed in 0.245 seconds.
+Scan completed in 0.247 seconds.
+
+Results saved to results.json
 ```
 
 ---
@@ -92,6 +109,17 @@ Simple-Port-Scanner/
 ---
 
 ## Version History
+
+### v2.3
+
+Implemented:
+
+- Export scan results to JSON files
+- Added `--output` command-line option
+- Included scan metadata in exported results
+- Added open port list export
+- Added thread count export
+- Added scan duration export
 
 ### v2.2
 
