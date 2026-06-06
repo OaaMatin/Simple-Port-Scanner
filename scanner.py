@@ -3,8 +3,28 @@ import socket
 import sys
 import time
 import json
-
 from concurrent.futures import ThreadPoolExecutor
+
+
+def scan_port(ip, port):
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.settimeout(0.5)
+            result = s.connect_ex((ip, port))
+
+            if result == 0:
+                try:
+                    banner = s.recv(1024).decode(errors="ignore").strip()
+                except:
+                    banner = None
+
+                return port, True, banner
+
+    except:
+        pass
+
+    return port, False, None
+
 
 def get_args():
     parser = argparse.ArgumentParser(
@@ -24,13 +44,18 @@ def get_args():
 
     return parser.parse_args()
 
+COMMON_SERVICES = {
+    21: "FTP",
+    22: "SSH",
+    23: "TELNET",
+    25: "SMTP",
+    53: "DNS",
+    80: "HTTP",
+    443: "HTTPS",
+    3306: "MySQL",
+}
 
-def scan_port(ip, port):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as scanner:
-        scanner.settimeout(1)
-        return scanner.connect_ex((ip, port)) == 0
-
-print('\n"Simple-Port-Scanner"\n')
+print('\n"Simple-Port-Scanner"')
 
 args = get_args()
 thread_count = args.threads
@@ -42,9 +67,9 @@ output_file = args.output
 try:
     host_ip = args.host
     resolved_ip = socket.gethostbyname(host_ip)
-    print(f"\nResolved IP: {resolved_ip}\n")
+    print(f"\nResolved IP: {resolved_ip}")
 except socket.gaierror:
-    print("\nInvalid host or IP address!\n")
+    print("\nInvalid host or IP address!")
     sys.exit(1)
 
 
@@ -61,7 +86,7 @@ if end_port < 0 or end_port > 65535:
 if end_port < start_port:
     end_port, start_port = start_port, end_port
 
-print("\nStarting scan...\n")
+print("\nStarting scan...")
 
 open_ports = 0
 open_ports_list = []
@@ -69,16 +94,22 @@ open_ports_list = []
 start_time = time.perf_counter()
 
 with ThreadPoolExecutor(max_workers=thread_count) as executor:
-    future_to_port = {}
+    futures = [
+        executor.submit(scan_port, resolved_ip, port)
+        for port in range(start_port, end_port + 1)
+    ]
 
-    for port in range(start_port, end_port + 1):
-        future = executor.submit(scan_port, resolved_ip, port)
-        future_to_port[future] = port
+    for future in futures:
+        port, is_open, banner = future.result()
 
-    for future in future_to_port:
-        port = future_to_port[future]
-        if future.result():
-            print(f"    Port {port} is open.")
+        if is_open:
+            service = COMMON_SERVICES.get(port, "Unknown")
+
+            if banner:
+                print(f"\nPort {port} OPEN ({service} - {banner})")
+            else:
+                print(f"\nPort {port} OPEN ({service})")
+
             open_ports += 1
             open_ports_list.append(port)
 

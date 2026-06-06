@@ -9,19 +9,14 @@ This project allows users to scan a target host within a specified port range an
 ## Features
 
 - Multi-threaded TCP port scanning
-- Scan custom TCP port ranges
+- Banner grabbing for open ports
+- Basic service fingerprinting
+- Fast single-connection scanning per port
 - Hostname and IP support
-- Open port detection
-- Open port counting
-- Custom thread count configuration
-- Export scan results to JSON
-- Display scan duration
-- Automatic port range correction
-- Input validation
-- Port range validation
-- Thread count validation
-- Error handling
-- Lightweight and dependency-free
+- Open port detection and counting
+- JSON export support
+- Configurable thread count
+- Input validation and error handling
 
 ---
 
@@ -110,6 +105,17 @@ Simple-Port-Scanner/
 
 ## Version History
 
+### v3.0
+
+Added banner grabbing and basic service detection for open ports.
+
+New features:
+- Banner grabbing for open TCP ports
+- Basic service detection (FTP, SSH, HTTP, etc.)
+- Multi-threaded scanning with improved performance
+- Optimized single-connection scanning (scan + banner in one step)
+- Improved output readability with service information
+
 ### v2.3
 
 Implemented:
@@ -119,7 +125,7 @@ Implemented:
 - Included scan metadata in exported results
 - Added open port list export
 - Added thread count export
-- Added scan duration export
+- Added scan duration export    
 
 ### v2.2
 
